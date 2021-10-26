@@ -1,0 +1,163 @@
+%%
+%% This is file `pattern-writing.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% pattern-writing.dtx  (with options: `package')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2021 by Geraldo Xexéo (xexeo@ufrj.br)
+%% 
+%% This file may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.3 of this license
+%% or (at your option) any later version.  The latest version of this
+%% license is in:
+%% 
+%% http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.3 or later is part of all distributions of LaTeX version
+%% 2005/12/01 or later.
+\NeedsTeXFormat{LaTeX2e}
+\def\pw@version{v1.2.3}
+\ProvidesPackage{pattern-writing}[2021/10/26 \pw@version dtx version of pattern-writing]
+    %   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+    %   Digits        \0\1\2\3\4\5\6\7\8\9
+    %   Exclamation   \!     Double quote  \"     Hash (number) \#
+    %   Dollar        \$     Percent       \%     Ampersand     \&
+    %   Acute accent  \'     Left paren    \(     Right paren   \)
+    %   Asterisk      \*     Plus          \+     Comma         \,
+    %   Minus         \-     Point         \.     Solidus       \/
+    %   Colon         \:     Semicolon     \;     Less than     \<
+    %   Equals        \=     Greater than  \>     Question mark \?
+    %   Commercial at \@     Left bracket  \[     Backslash     \\
+    %   Right bracket \]     Circumflex    \^     Underscore    \_
+    %   Grave accent  \`     Left brace    \{     Vertical bar  \|
+    %   Right brace   \}     Tilde         \~}
+\newif\if@showindex\@showindextrue%
+\newif\if@showgraph\@showgraphtrue%
+\newif\if@graphstarted\@graphstartedfalse%
+\DeclareOption{index}{\@showindextrue}%
+\DeclareOption{noindex}{\@showindexfalse}%
+\DeclareOption{graph}{\@showgraphtrue}%
+\DeclareOption{nograph}{\@showgraphfalse}%
+\ProcessOptions\relax%
+\RequirePackage{xparse}%
+\RequirePackage{xcolor}%
+\if@showindex%
+\RequirePackage{makeidx}%
+\fi%
+\if@showgraph%
+\RequirePackage{pgf,tikz}%
+\usetikzlibrary {graphs}
+%%\usetikzlibrary {graphs.standard}
+\usetikzlibrary{graphdrawing}
+\usegdlibrary{circular,trees,force,layered}
+\fi%
+%%%%%%%%%% Support to graph
+\if@showgraph%
+\def\p@filename{graph.tikz}%
+\def\p@CurrentPattern{ZERO}%
+\def\p@GraphLayout{spring layout, node distance = 80mm}
+\NewDocumentCommand{\psetfilename}{m}{%
+    \def\p@filename{#1}%
+}%
+\NewDocumentCommand{\pstartgraph}{}{%
+    \newwrite\p@fileh%
+    \immediate\openout\p@fileh=\p@filename%
+    % tryed tikz, problem with accents
+    \immediate\write\p@fileh{\unexpanded{\resizebox{\textwidth}{!}}\@charlb\unexpanded{\begin{tikzpicture}  \graph [}\p@GraphLayout \unexpanded{]} \@charlb}%
+    \@graphstartedtrue
+}%
+\begin\NewDocumentCommand{\pstopgraph}{}{%
+    \immediate\write\p@fileh{\@charrb \unexpanded{;\end{tikzpicture}}\@charrb}%
+    \immediate\closeout\p@fileh%
+    \@graphstartedfalse
+}%
+\NewDocumentCommand{\setPatternGraphLayout}{m}{%
+    \def\p@GraphLayout{#1}%
+}%
+\NewDocumentCommand{\pgetgraph}{}{%
+    \IfFileExists{\p@filename}%
+    {\input{\p@filename}}%
+    {}%
+}%
+\NewDocumentCommand{\pnode}{m}{%
+    \if@graphstarted
+    \immediate\write\p@fileh{"#1";}%
+    \def\p@CurrentPattern{#1}%
+    \fi
+}%
+\NewDocumentCommand{\pedge}{om}{%
+    \if@graphstarted
+    \IfNoValueTF{#1}
+    {\immediate\write\p@fileh{"\p@CurrentPattern" -- "#2";}}%
+    {\immediate\write\p@fileh{"#1" -- "#2";}}%
+    \fi
+}%
+\else  % Nada
+\def\p@filename{graph.tikz}%
+\def\p@currentPattern{ZERO}%
+\NewDocumentCommand{\psetfilename}{m}{}%
+\NewDocumentCommand{\pstartgraph}{}{}%
+\NewDocumentCommand{\pstopgraph}{}{}%
+\NewDocumentCommand{\pgetgraph}{}{\includegraphics[width=\textwidth]{example-image-a}}%
+\NewDocumentCommand{\psetcurrentpattern}{m}{%
+}%
+\NewDocumentCommand{\pgetcurrentpattern}{}{%
+}%
+\NewDocumentCommand{\pnode}{m}{}%
+\NewDocumentCommand{\pedge}{om}{}%
+\NewDocumentCommand{\setPatternGraphLayout}{m}{}%
+\fi
+\NewDocumentCommand{\pattern}{m}{\subsection{#1}\label{sec:#1}%
+    \if@showindex%
+    \index{#1|textbf}%
+    \fi%
+    \if@showgraph%
+    \pnode{#1}
+    \fi
+}%
+\NewDocumentCommand{\patternref}{om}{%
+    \IfNoValueTF{#1}%
+    {\hyperref[sec:#2]{\textbf{#2}}}%
+    {\hyperref[sec:#2]{\textbf{#1}}}%
+    \if@showindex%
+    \index{#2}%
+    \fi%
+    \if@showgraph%
+    \pedge{#2}
+    \fi
+}%
+\NewDocumentCommand{\antipattern}{m}{\textcolor{red}{#1}%
+    \label{sec:#1}%
+    \if@showindex%
+    \index{\textcolor{red}{#1}|textbf}%
+    \fi%
+}%
+\NewDocumentCommand{\antipatternref}{om}{%
+    \IfNoValueTF{#1}%
+    {\hyperref[sec:#2]{\textcolor{red}{\textbf{#2}}}}%
+    {\hyperref[sec:#2]{\textcolor{red}{\textbf{#1}}}}%
+    \if@showindex%
+    \index{\textcolor{red}{#2}}%
+    \fi%
+}%
+\NewDocumentCommand{\portland}{mm}{\textbf{SE~}%
+    #1%
+    \textbf{~ENTÃO~} #2}%
+\NewDocumentCommand{\coplien}{mmmmmm}{%
+    \textbf{Problema}: #1 \par
+    \textbf{Contexto}: #2\par
+    \textbf{Forças}: #3 \par
+    \textbf{Solução}: #4 \par
+    \textbf{Raciocínio}: #5 \par
+    \textbf{Contexto Resultante}: #6 \par
+}%
+\if@showindex%
+\makeindex%
+\fi%
+\endinput
+%%
+%% End of file `pattern-writing.sty'.
