@@ -50,30 +50,30 @@
 \fi%
 \if@showgraph%
 \RequirePackage{pgf,tikz}%
-\usetikzlibrary {graphs}
+\usetikzlibrary {graphs}%
 %%\usetikzlibrary {graphs.standard}
-\usetikzlibrary{graphdrawing}
-\usegdlibrary{circular,trees,force,layered}
+\usetikzlibrary{graphdrawing}%
+\usegdlibrary{circular,trees,force,layered}%
 \fi%
-%%%%%%%%%% Support to graph
 \if@showgraph%
 \def\p@filename{graph.tikz}%
 \def\p@CurrentPattern{ZERO}%
-\def\p@GraphLayout{spring layout, node distance = 80mm}
+\def\p@GraphLayout{spring layout, node distance = 80mm}%
 \NewDocumentCommand{\psetfilename}{m}{%
-    \def\p@filename{#1}%
+\def\p@filename{#1}%
 }%
 \NewDocumentCommand{\pstartgraph}{}{%
-    \newwrite\p@fileh%
-    \immediate\openout\p@fileh=\p@filename%
-    % tryed tikz, problem with accents
-    \immediate\write\p@fileh{\unexpanded{\resizebox{\textwidth}{!}}\@charlb\unexpanded{\begin{tikzpicture}  \graph [}\p@GraphLayout \unexpanded{]} \@charlb}%
-    \@graphstartedtrue
+\newwrite\p@fileh%
+\immediate\openout\p@fileh=\p@filename%
+\immediate\write\p@fileh{\unexpanded{\resizebox{\textwidth}{!}}\@charlb\unexpanded{\begin{tikzpicture}  \graph [}\p@GraphLayout%
+\unexpanded{]} \@charlb}%
+\@graphstartedtrue%
 }%
-\begin\NewDocumentCommand{\pstopgraph}{}{%
-    \immediate\write\p@fileh{\@charrb \unexpanded{;\end{tikzpicture}}\@charrb}%
-    \immediate\closeout\p@fileh%
-    \@graphstartedfalse
+\NewDocumentCommand{\pstopgraph}{}{%
+\immediate\write\p@fileh{\@charrb%
+\unexpanded{;\end{tikzpicture}}\@charrb}%
+\immediate\closeout\p@fileh%
+\@graphstartedfalse%
 }%
 \NewDocumentCommand{\setPatternGraphLayout}{m}{%
     \def\p@GraphLayout{#1}%
@@ -144,16 +144,30 @@
     \index{\textcolor{red}{#2}}%
     \fi%
 }%
-\NewDocumentCommand{\portland}{mm}{\textbf{SE~}%
+\NewDocumentCommand{\setportlandkeys}{mm}{%
+    \def\portland@ifkey{#1}%
+    \def\portland@thenkey{#2}%
+}%
+\setportlandkeys{SE}{ENTÃO}
+\NewDocumentCommand{\portland}{mm}{\textbf{\def\portland@ifkey~}%
     #1%
-    \textbf{~ENTÃO~} #2}%
+    \textbf{~\def\portland@thenkey~} #2}%
+\NewDocumentCommand{\setcoplienkeys}{mmmmmm}{%
+    \def\coplien@key@prob{#1}%
+    \def\coplien@key@cont{#2}%
+    \def\coplien@key@forc{#3}%
+    \def\coplien@key@solu{#4}%
+    \def\coplien@key@reas{#5}%
+    \def\coplien@key@cnrs{#6}%
+}%
+\setcoplienkeys{\textbf{Problema:}}{\textbf{Contexto:}}{\textbf{Forças:}}{\textbf{Solução:}}{\textbf{Raciocínio:}}{\textbf{Contexto Resultante:}}%
 \NewDocumentCommand{\coplien}{mmmmmm}{%
-    \textbf{Problema}: #1 \par
-    \textbf{Contexto}: #2\par
-    \textbf{Forças}: #3 \par
-    \textbf{Solução}: #4 \par
-    \textbf{Raciocínio}: #5 \par
-    \textbf{Contexto Resultante}: #6 \par
+    \textbf{\coplien@key@prob}: #1 \par%
+    \textbf{\coplien@key@cont}: #2\par%
+    \textbf{\coplien@key@forc}: #3 \par%
+    \textbf{\coplien@key@solu}: #4 \par%
+    \textbf{\coplien@key@reas}: #5 \par%
+    \textbf{\coplien@key@cnrs}: #6 \par%
 }%
 \if@showindex%
 \makeindex%

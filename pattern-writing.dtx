@@ -20,49 +20,50 @@
 %<package>\def\pw@version{v1.2.3}
 %<package>\ProvidesPackage{pattern-writing}[2021/10/26 \pw@version dtx version of pattern-writing]
 %<*driver>
-\documentclass{ltxdoc}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{csquotes}
-\usepackage[brazilian,english]{babel}
-\usepackage{datetime}
-\usepackage{indentfirst}
-\usepackage{enumitem}
-\usepackage{graphicx}
-\setlist{noitemsep}
-\setlength{\parskip}{0.5em}
-\usepackage[backend=biber,style=alphabetic,natbib]{biblatex}
-\addbibresource{padroes.bib}
+\documentclass{ltxdoc}%
+\usepackage[T1]{fontenc}%
+\usepackage[utf8]{inputenc}%
+\usepackage{csquotes}%
+\usepackage[brazilian,english]{babel}%
+\usepackage{datetime}%
+\usepackage{indentfirst}%
+\usepackage{enumitem}%
+\usepackage{graphicx}%
+\setlist{noitemsep}%
+\setlength{\parskip}{0.5em}%
+\usepackage[backend=biber,style=alphabetic,natbib]{biblatex}%
+\addbibresource{padroes.bib}%
 %%\usepackage{textcomp,url,a4wide,array}
 %%\usepackage[eso-foot,today,draft]{svninfo}
 %%\usepackage{xcolor}
-\usepackage{hyperref}
+\usepackage{pattern-writing}%
+\usepackage{hyperref}%
 %
 %
 %
 %
-\EnableCrossrefs
-\CodelineIndex
-\RecordChanges
+\EnableCrossrefs%
+\CodelineIndex%
+\RecordChanges%
 %
-\DoNotIndex{\def,\long,\edef,\xdef,\gdef,\let,\global}
-\DoNotIndex{\begin,\AtEndDocument,\newcommand,\newcounter,\stepcounter}
-\DoNotIndex{\immediate,\openout,\closeout,\message,\typeout}
-\DoNotIndex{\section,\scshape,\arabic}
+\DoNotIndex{\def,\long,\edef,\xdef,\gdef,\let,\global}%
+\DoNotIndex{\begin,\AtEndDocument,\newcommand,\newcounter,\stepcounter}%
+\DoNotIndex{\immediate,\openout,\closeout,\message,\typeout}%
+\DoNotIndex{\section,\scshape,\arabic}%
 %
 %
 %
-\title{pattern-writing 0.1}
-\author{Geraldo Xexéo}
-\date{\today\ - \ \currenttime}
-\GetFileInfo{pattern-writing.sty}
+\title{pattern-writing 0.1}%
+\author{Geraldo Xexéo}%
+\date{\today\ - \ \currenttime}%
+\GetFileInfo{pattern-writing.sty}%
 %
-\makeindex
-\MakeShortVerb{\|}
-\begin{document}
-    \DocInput{pattern-writing.dtx}
-    \printbibliography
-\end{document}
+\makeindex%
+\MakeShortVerb{\|}%
+\begin{document}%
+\DocInput{pattern-writing.dtx}%
+\printbibliography%
+\end{document}%
 %</driver>
 % \fi
 %
@@ -84,14 +85,7 @@
     %   Grave accent  \`     Left brace    \{     Vertical bar  \|
     %   Right brace   \}     Tilde         \~}
 %
-% \changes{v1.0}{2021/05/29}{First version}
-% \changes{v1.1}{2021/05/30}{You can put an aditional symbol before the comment superscript number}
-% \changes{v1.1.1}{2021/05/30}{Fix some bugs, anonymization back on manual}
-% \changes{v1.1.2}{2021/05/30}{PDF bookmarks can't handle full UTF}
-% \changes{v1.2.0}{2021/05/30}{New command cwmain and configuration for it}
-% \changes{v1.2.1}{2021/06/05}{Fixing problems with footnote mark color and also recovering \LaTeX\ command (at-sign)makefnmark}
-% \changes{v1.2.2}{2021/06/06}{Memoir class, used by abnetex2, used by my department,  ``emulates'' tocloft, but not correctly. Many IFs were necessary}
-% \changes{v1.2.3}{2021/06/09}{CoppeTex class asks for LoF and etc... to appear in ToC. This is an option in tocloft, but Book does not behave like that}
+% \changes{v1.0}{2021/10/26}{First version}
 %\maketitle
 %
 % \tableofcontents
@@ -99,6 +93,68 @@
 % \section{Introduction}
 %
 % This is a \LaTeX style to help writing pattern languages~\citep{c2:def}.
+%
+% It directly supports two formats for describing patterns: Portland style (if-then) and Coplien's style.
+%
+% \section{Options}
+%
+% \DescribeMacro{index}
+% \DescribeMacro{noindex}
+%
+%  These options turn pattern indexing true or false
+%
+% \DescribeMacro{graph}
+% \DescribeMacro{nograph}
+%
+%  These option turn graph generation true or false
+%
+% \section{Commands}
+% In this package you can:
+% \begin{itemize}
+%    \item declare a pattern;
+%    \item describe a pattern in two formats, Portland and Coplien's;
+%    \item refer to a pattern;
+%    \item declara an anti-pattern;
+%   \item refer to an anti-pattern;
+%    \item create a graph, and
+%    \item configure some parameters.
+% \end{itemize}
+% \subsection{Declaring patterns and anti-patterns}
+% \DescribeMacro{pattern}
+% \DescribeMacro{anti-pattern}
+%
+% |\pattern|\marg{pattern-name}
+%
+% |\antipattern|\marg{anti-pattern-name}
+%
+%  Those macros declare a pattern or a anti-pattern and put the on the index if |index| is turned on. A pattern is also put in the graph, if |graph| is turned on.
+% \subsection{Refering to patterns and anti-patterns}
+%
+% \DescribeMacro{patternref}
+% \DescribeMacro{antipatternref}
+%
+% |\pattern|\oarg{how-to-print}{pattern-name}
+%
+%  |\antipattern|\oarg{how-to-print}{antipattern-name}
+%
+%  Those commands make a reference (with link) to patterns and anti-patterns, allowing for changes in the name, such as putting it in the plural.
+%
+% \subsection{Graph Commands}
+% \DescribeMacro{\pstartgraph}
+% \DescribeMacro{\pstopgraph}
+% \DescribeMacro{\pgetgraph}
+% \DescribeMacro{\setPatternGraphLayout}
+%
+%
+% \subsection{Pattern description}
+% \DescribeMacro{\portland}
+% |\portland|\marg{if part}\marg{then part}
+%
+% \DescribeMacro{\coplien}
+% |\coplien| \marg{problem}\marg{context}\marg{forces}\marg{solution}
+%
+%\marg{reasoning}\marg{resultingcontext}
+%
 %
 % \section{Code}
 % \subsection{Option Processing}
@@ -143,51 +199,74 @@
 \fi%
 \if@showgraph%
 \RequirePackage{pgf,tikz}%
-\usetikzlibrary {graphs}
+\usetikzlibrary {graphs}%
 %%\usetikzlibrary {graphs.standard}
-\usetikzlibrary{graphdrawing}
-\usegdlibrary{circular,trees,force,layered}
+\usetikzlibrary{graphdrawing}%
+\usegdlibrary{circular,trees,force,layered}%
 \fi%
-%%%%%%%%%% Support to graph
 %
+%    \end{macrocode}
 % \subsection{Graph Support}
 %  With we use graph, some settings muste be enalbe
 %
+%    \begin{macrocode}
 \if@showgraph%
 \def\p@filename{graph.tikz}%
 \def\p@CurrentPattern{ZERO}%
-\def\p@GraphLayout{spring layout, node distance = 80mm}
+%
+% standard layout for the graph
+%
+\def\p@GraphLayout{spring layout, node distance = 80mm}%
 \NewDocumentCommand{\psetfilename}{m}{%
-    \def\p@filename{#1}%
+\def\p@filename{#1}%
 }%
 %    \end{macrocode}
+%
 % \begin{macro}{\pstartgraph}
 %  This macro starts the processing of declarations to create the graph
 %https://tex.stackexchange.com/questions/115932/on-the-basics-of-writing-to-reading-from-auxiliary-files-aux-toc-etc
 %    \begin{macrocode}
 \NewDocumentCommand{\pstartgraph}{}{%
-    \newwrite\p@fileh%
-    \immediate\openout\p@fileh=\p@filename%
-    % tryed tikz, problem with accents
-    \immediate\write\p@fileh{\unexpanded{\resizebox{\textwidth}{!}}\@charlb\unexpanded{\begin{tikzpicture}  \graph [}\p@GraphLayout \unexpanded{]} \@charlb}%
-    \@graphstartedtrue
-}%
-\begin\NewDocumentCommand{\pstopgraph}{}{%
-    \immediate\write\p@fileh{\@charrb \unexpanded{;\end{tikzpicture}}\@charrb}%
-    \immediate\closeout\p@fileh%
-    \@graphstartedfalse
+\newwrite\p@fileh%
+\immediate\openout\p@fileh=\p@filename%
+% tryed tikz, problem with accents
+\immediate\write\p@fileh{\unexpanded{\resizebox{\textwidth}{!}}\@charlb\unexpanded{\begin{tikzpicture}  \graph [}\p@GraphLayout%
+\unexpanded{]} \@charlb}%
+\@graphstartedtrue%
 }%
 %    \end{macrocode}
 % \end{macro}
+% \begin{macro}{\pstopgraph}
+%  This macro stops the processing of declarations to create the graph
+%https://tex.stackexchange.com/questions/115932/on-the-basics-of-writing-to-reading-from-auxiliary-files-aux-toc-etc
+%    \begin{macrocode}
+\NewDocumentCommand{\pstopgraph}{}{%
+\immediate\write\p@fileh{\@charrb%
+\unexpanded{;\end{tikzpicture}}\@charrb}%
+\immediate\closeout\p@fileh%
+\@graphstartedfalse%
+}%
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\setPatternGraphLayout}
+% This macro is used to set tikz commands for the graph layout.
+% Please check tikz for possible values.
 %    \begin{macrocode}
 \NewDocumentCommand{\setPatternGraphLayout}{m}{%
     \def\p@GraphLayout{#1}%
 }%
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pgetgraph}
+%    \begin{macrocode}
 \NewDocumentCommand{\pgetgraph}{}{%
     \IfFileExists{\p@filename}%
     {\input{\p@filename}}%
     {}%
 }%
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
 \NewDocumentCommand{\pnode}{m}{%
     \if@graphstarted
     \immediate\write\p@fileh{"#1";}%
@@ -275,19 +354,59 @@
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Pattern Writing Styles}
-%    \begin{macrocode}
-\NewDocumentCommand{\portland}{mm}{\textbf{SE~}%
-    #1%
-    \textbf{~ENTÃO~} #2}%
+% \begin{macro}{\setportlandkeys}
+% |\setportlandkeys|\marg{if-key}\marg{then-key}
+%   sets the values for if-then when writing a Portland-style pattern
 %
-\NewDocumentCommand{\coplien}{mmmmmm}{%
-    \textbf{Problema}: #1 \par
-    \textbf{Contexto}: #2\par
-    \textbf{Forças}: #3 \par
-    \textbf{Solução}: #4 \par
-    \textbf{Raciocínio}: #5 \par
-    \textbf{Contexto Resultante}: #6 \par
+%    \begin{macrocode}
+\NewDocumentCommand{\setportlandkeys}{mm}{%
+    \def\portland@ifkey{#1}%
+    \def\portland@thenkey{#2}%
 }%
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{portland}
+% |\portland|\marg{if part}\marg{then part}
+%    \begin{macrocode}
+\setportlandkeys{SE}{ENTÃO}
+\NewDocumentCommand{\portland}{mm}{\textbf{\def\portland@ifkey~}%
+    #1%
+    \textbf{~\def\portland@thenkey~} #2}%
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\setcoplienkeys}
+% |\setportlandkeys|\marg{problem}\marg{context}\marg{forces}\marg{solution}\marg{reasoning}\marg{resultingcontext}
+%   sets the values for if-then when writing a Portland-style pattern
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\setcoplienkeys}{mmmmmm}{%
+    \def\coplien@key@prob{#1}%
+    \def\coplien@key@cont{#2}%
+    \def\coplien@key@forc{#3}%
+    \def\coplien@key@solu{#4}%
+    \def\coplien@key@reas{#5}%
+    \def\coplien@key@cnrs{#6}%
+}%
+\setcoplienkeys{\textbf{Problema:}}{\textbf{Contexto:}}{\textbf{Forças:}}{\textbf{Solução:}}{\textbf{Raciocínio:}}{\textbf{Contexto Resultante:}}%
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\coplien}
+% |\coplien| \marg{problem}\marg{context}\marg{forces}\marg{solution}\marg{reasoning}\marg{resultingcontext}
+%
+%  Writes a pattern in Coplien format
+%    \begin{macrocode}
+\NewDocumentCommand{\coplien}{mmmmmm}{%
+    \textbf{\coplien@key@prob}: #1 \par%
+    \textbf{\coplien@key@cont}: #2\par%
+    \textbf{\coplien@key@forc}: #3 \par%
+    \textbf{\coplien@key@solu}: #4 \par%
+    \textbf{\coplien@key@reas}: #5 \par%
+    \textbf{\coplien@key@cnrs}: #6 \par%
+}%
+%    \end{macrocode}
+% \end{macro}
+% \subsection{Index making}
+%    \begin{macrocode}
 \if@showindex%
 \makeindex%
 \fi%
