@@ -17,7 +17,7 @@
 %
 %\iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}
-%<package>\def\pw@version{v0.2}
+%<package>\def\pw@version{v0.21}
 %<package>\ProvidesPackage{pattern-writing}[2021/10/26 \pw@version dtx version of pattern-writing]
 %<*driver>
 \documentclass{ltxdoc}%
@@ -155,6 +155,22 @@
 %
 %\marg{reasoning}\marg{resultingcontext}
 %
+% \section{Example}
+% \setportlandkeys{IF}{THEN}
+% \setPatternGraphLayout{spring layout}
+% \pstartgraph
+% \pattern{Open Doors}
+% \portland{there is a need to help students}{is good to have a open-door police, and \patternref{Be Helpful}.}
+%
+% \pattern{Be Helpful}
+% \portland{there is a need to help people}{you need to be really helpful}
+% \pstopgraph
+% \begin{figure}
+%    \center
+%    \pgetgraph
+%    \caption{A figure}
+%    \label{fig:01}
+%\end{figure}
 %
 % \section{Code}
 % \subsection{Option Processing}
@@ -369,9 +385,8 @@
 % |\portland|\marg{if part}\marg{then part}
 %    \begin{macrocode}
 \setportlandkeys{SE}{ENTÃO}
-\NewDocumentCommand{\portland}{mm}{\textbf{\def\portland@ifkey~}%
-    #1%
-    \textbf{~\def\portland@thenkey~} #2}%
+\NewDocumentCommand{\portland}{mm}{%
+\textbf{\portland@ifkey~} #1 \textbf{~\portland@thenkey~} #2}%
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\setcoplienkeys}
